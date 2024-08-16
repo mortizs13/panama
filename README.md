@@ -199,6 +199,10 @@ Algunas anomalías identificadas incluyen:
 - **Transacciones sin país de origen o destino:** Transacciones que no tienen un valor en los campos `PAIS_ORIGEN_TRANSACCION` o `PAIS_DESTINO_TRANSACCION`.
 - **Montos de transacción inusuales:** Transacciones con montos que exceden significativamente el rango típico para un cliente determinado.
 
+![image](./anomalias_dbscan_wires_in_vs_monto.png)
+	
+![image](./anomalias_dbscan_wires_out_vs_monto.png)
+
 ## 5. Conclusión
 
 En resumen, el análisis permitió identificar inconsistencias y posibles riesgos en los datos de transacciones, así como anomalías que podrían requerir mayor investigación. Se recomienda realizar un análisis más detallado de las transacciones inusuales y considerar ajustes en los procesos de captura de datos para mejorar la calidad de los mismos.
