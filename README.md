@@ -185,9 +185,13 @@ Esta consulta es fundamental para integrar la información y llevar a cabo un an
 
 ## 4. Análisis Descriptivo y Detección de Anomalías
 
+
 ### 4.1. Uso de `pandas-profiling`
 
-Se utilizó la herramienta `pandas-profiling` para generar un análisis descriptivo exhaustivo de los datos. El proceso de generación del perfil fue intensivo en recursos, utilizando aproximadamente 20 GB de memoria RAM. Los insights principales incluyeron la distribución de las transacciones y la detección de valores atípicos.
+[GitHub Pages del analisis Descriptivo](https://mortizs13.github.io/panama/Reporte_analisis_descriptivo.html)
+
+
+Se utilizó la herramienta `pandas-profiling` para generar un análisis descriptivo exhaustivo de los datos. El proceso de generación del perfil fue intensivo en recursos, utilizando aproximadamente 20 GB de memoria RAM. Los insights principales incluyeron la distribución de las transacciones y la detección de valores atípicos lo pueden ver en el `data_profiling.py` :
 
 ![image](./image.png)
 
@@ -199,9 +203,67 @@ Algunas anomalías identificadas incluyen:
 - **Transacciones sin país de origen o destino:** Transacciones que no tienen un valor en los campos `PAIS_ORIGEN_TRANSACCION` o `PAIS_DESTINO_TRANSACCION`.
 - **Montos de transacción inusuales:** Transacciones con montos que exceden significativamente el rango típico para un cliente determinado.
 
+en el `main.py` esta la función el cual es un algoritmo de DBSCAN (Density-Based Spatial Clustering of Applications with Noise) es un algoritmo de clustering basado en densidad para identificar agrupaciones de puntos en un conjunto de datos, basándose en la densidad de puntos en un espacio de características como lo son `MONTO`, `PERFIL_WIRES_IN_MONTO` y `PERFIL_WIRES_OUT_MONTO`
+
+```python 
+def detectar_anomalias_dbscan(df):
+    X = df[['MONTO', 'PERFIL_WIRES_IN_MONTO', 'PERFIL_WIRES_OUT_MONTO']].values
+
+    # Configuración de DBSCAN
+    dbscan = DBSCAN(eps=0.5, min_samples=5)
+    df['anomaly'] = dbscan.fit_predict(X)
+
+    # Anomalías detectadas (etiqueta -1)
+    anomalies = df[df['anomaly'] == -1]
+    
+    # Guardar las anomalías detectadas en un archivo Excel
+    #anomalies.to_excel('salida_anomalias_dbscan.xlsx', index=False)
+    anomalies.to_csv('salida_anomalias_dbscan.csv', index=False)
+    
+    # Visualización y guardado de gráficos de anomalías
+
+    # Gráfico 1: PERFIL_WIRES_IN_MONTO vs MONTO
+    plt.figure(figsize=(10, 6))
+    plt.scatter(X[:, 1], X[:, 0], c=df['anomaly'], cmap='coolwarm', marker='o')
+    plt.xlabel('PERFIL_WIRES_IN_MONTO')
+    plt.ylabel('MONTO')
+    plt.title('Detección de Anomalías (DBSCAN) - Wires In Monto vs Monto')
+    plt.colorbar()
+    plt.savefig('anomalias_dbscan_wires_in_vs_monto.png')
+    plt.close()
+
+    # Gráfico 2: PERFIL_WIRES_OUT_MONTO vs MONTO
+    plt.figure(figsize=(10, 6))
+    plt.scatter(X[:, 2], X[:, 0], c=df['anomaly'], cmap='coolwarm', marker='o')
+    plt.xlabel('PERFIL_WIRES_OUT_MONTO')
+    plt.ylabel('MONTO')
+    plt.title('Detección de Anomalías (DBSCAN) - Wires Out Monto vs Monto')
+    plt.colorbar()
+    plt.savefig('anomalias_dbscan_wires_out_vs_monto.png')
+    plt.close()
+
+    # Gráfico 3: PERFIL_WIRES_IN_MONTO vs PERFIL_WIRES_OUT_MONTO
+    plt.figure(figsize=(10, 6))
+    plt.scatter(X[:, 1], X[:, 2], c=df['anomaly'], cmap='coolwarm', marker='o')
+    plt.xlabel('PERFIL_WIRES_IN_MONTO')
+    plt.ylabel('PERFIL_WIRES_OUT_MONTO')
+    plt.title('Detección de Anomalías (DBSCAN) - Wires In vs Wires Out')
+    plt.colorbar()
+    plt.savefig('anomalias_dbscan_wires_in_vs_wires_out.png')
+    plt.close()
+
+    print("Anomalías detectadas guardadas en 'salida_anomalias_dbscan.xlsx'")
+    print("Gráficos de anomalías guardados en archivos PNG")
+
+# Ejecutar la función de detección de anomalías
+detectar_anomalias_dbscan(df)
+```
+
 ![image](./anomalias_dbscan_wires_in_vs_monto.png)
 	
 ![image](./anomalias_dbscan_wires_out_vs_monto.png)
+
+
 
 ## 5. Conclusión
 
