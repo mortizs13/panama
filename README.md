@@ -110,6 +110,41 @@ def cargar_archivo_transacciones():
 
 ## 3. Consulta SQL de Unión de Datos
 
+### Tabla: CLIENTES
+
+| Nombre del Campo    | Tipo   | Not Null | Descripción                                                                                                       |
+|---------------------|--------|----------|-------------------------------------------------------------------------------------------------------------------|
+| CODIGO              | TEXT   | No       | Código del cliente. Es alfanumérico y único para cada cliente.                                                    |
+| TIPO_CLIENTE        | TEXT   | No       | Tipo de cliente. Puede ser ‘NATURAL’ (persona natural) o ‘JURIDICO’ (persona jurídica).                           |
+| FECHA_ACTUALIZACION | DATE   | No       | Fecha de la última actualización de los datos del cliente. Formato YYYYMMDD.                                      |
+| PEP                 | TEXT   | No       | Permiso Especial de Permanencia. Puede ser ‘SI’, ‘NO’ o NULL.                                                     |
+| RIESGO              | TEXT   | No       | Nivel de riesgo asociado al cliente. Valores posibles: ‘MEDIO’, ‘MEDIO_BAJO’, ‘BAJO’, ‘ALTO’, ‘MEDIO_ALTO’, NULL. |
+| PAIS                | TEXT   | No       | País del cliente, en formato de código ISO 3166-1 (ej. ‘CO’, ‘SV’, ‘PA’).                                         |
+
+
+### Tabla: PRODUCTOS
+| Nombre del Campo           | Tipo    | Not Null | Descripción                                                                                 |
+|----------------------------|---------|----------|---------------------------------------------------------------------------------------------|
+| CODIGO                     | TEXT    | No       | Código del producto asociado al cliente. Es alfanumérico.                                   |
+| CUENTA                     | TEXT    | No       | Número de cuenta asociada al producto. Es alfanumérico.                                     |
+| TIPO_CUENTA                | TEXT    | No       | Tipo de cuenta. Valores posibles: ‘CUENTA’, ‘CDT’, ‘PRESTAMO’, ‘LEASING’.                   |
+| ESTADO_CUENTA              | TEXT    | No       | Estado de la cuenta. Valores posibles: ‘CANCELADO’, ‘ACTIVO’, ‘BLOQUEADO’.                  |
+| PERFIL_WIRES_IN_MONTO      | INTEGER | No       | Monto total de giros u operaciones internacionales de entrada. Es numérico.                 |
+| PERFIL_WIRES_IN_FRECUENCIA | INTEGER | No       | Frecuencia o cantidad de giros u operaciones internacionales de entrada. Es numérico.       |
+| PERFIL_WIRES_OUT_MONTO     | INTEGER | No       | Monto total de giros u operaciones internacionales de salida. Es numérico.                  |
+| PERFIL_WIRES_OUT_FRECUENCIA| INTEGER | No       | Frecuencia o cantidad de giros u operaciones internacionales de salida. Es numérico.        |
+
+### Tabla: TRANSACCIONES
+| Nombre del Campo            | Tipo    | Not Null | Descripción                                                                                 |
+|-----------------------------|---------|----------|---------------------------------------------------------------------------------------------|
+| CUENTA                      | TEXT    | No       | Número de cuenta desde la que se realizó la transacción. Es alfanumérico.                   |
+| FECHA_TRANSACCION           | TEXT    | No       | Fecha en la que se realizó la transacción. Es de tipo datetime en formato YYYY-MM-DD.        |
+| TIPO_TRANSACCION            | TEXT    | No       | Tipo de transacción. El valor siempre es ‘Wires Out’.                                       |
+| MONTO                       | INTEGER | No       | Monto de la transacción. Es un valor numérico.                                              |
+| PAIS_ORIGEN_TRANSACCION     | TEXT    | No       | País de origen de la transacción, en formato de código ISO 3166-1 (ej. ‘CO’, ‘SV’, ‘PA’).    |
+| PAIS_DESTINO_TRANSACCION    | TEXT    | No       | País de destino de la transacción, en formato de código ISO 3166-1 (ej. ‘CO’, ‘SV’, ‘PA’).   |
+
+
 Después de realizar las transformaciones necesarias, los datos fueron cargados en una base de datos SQLite en las tablas clientes, productos y transacciones.
 
 ```sql
