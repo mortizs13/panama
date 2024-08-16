@@ -7,7 +7,7 @@ Esta prueba técnica, realizada en agosto de 2024, tiene como objetivo evaluar l
 
 ## 2. Carga y Transformación de Datos
 
-Los archivos CSV fueron procesados y transformados utilizando Python antes de ser cargados en una base de datos SQLite para facilitar su análisis. A continuación, se describe el proceso seguido para cada archivo:
+Los archivos CSV fueron procesados y transformados utilizando Python antes de ser cargados en una base de datos SQLite para facilitar su análisis. A continuación, se describe el proceso seguido para cada archivo lo pueden ver en el `script.py` :
 
 ### 2.1. Archivo `CLIENTES.csv`
 
