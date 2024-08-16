@@ -154,7 +154,7 @@ Esta consulta es fundamental para integrar la información y llevar a cabo un an
 
 Se utilizó la herramienta `pandas-profiling` para generar un análisis descriptivo exhaustivo de los datos. El proceso de generación del perfil fue intensivo en recursos, utilizando aproximadamente 20 GB de memoria RAM. Los insights principales incluyeron la distribución de las transacciones y la detección de valores atípicos.
 
-![image](./technical/image.png)
+![image](./image.png)
 
 
 ### 4.2. Identificación de Anomalías
